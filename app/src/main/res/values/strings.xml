@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">TestBot</string>
+    <string name="chat_btn_jobseeker">Jobseeker</string>
+    <string name="chat_btn_employer">Employer</string>
+    <string name="chat_text">Are you seeking a job or employees?</string>
+    <string name="employer_login_btn">Login</string>
+    <string name="employer_no_account_text">No account yet? Create one</string>
+    <string name="employer_hint_username">Username</string>
+    <string name="employer_hint_password">Password</string>
+    <string name="employer_signup_btn">Sign up</string>
+    <string name="employer_already_account_text">Already an account? Go back to login.</string>
+    <string name="jobseeker_login_btn">Login</string>
+    <string name="jobseeker_no_account_text">No account yet? Create one</string>
+    <string name="jobseeker_hint_username">Username</string>
+    <string name="jobseeker_hint_password">Password</string>
+    <string name="jobseeker_signup_btn">Sign up</string>
+    <string name="jobseeker_already_account_text">Already an account? Go back to login.</string>
+    <string name="jobseeker_hint_phone">Phone</string>
+    <string name="invalid_textfields">Username or password fields are empty or invalid.</string>
+    <string name="password_not_match">Passwords does not match.</string>
+    <string name="signup_successfull">Signup successful.</string>
+    <string name="btn_go_to_cv">Go to CV</string>
+    <string name="done">Done</string>
+    <string name="are_you_sure">Are you sure that you are done?</string>
+    <string name="search_title">Search</string>
+</resources>
