@@ -24,7 +24,11 @@
         <activity android:name=".signup.EmployerSignupActivity"></activity>
         <activity android:name=".login.JobseekerLoginActivity"></activity>
         <activity android:name=".signup.JobseekerSignupActivity"></activity>
-        <activity android:name=".cv.CVList"></activity>
+        <activity android:name=".cv.CVList">
+        <meta-data
+            android:name="android.app.searchable"
+            android:resource="@xml/searchable">
+        </meta-data>></activity>
         <activity android:name=".profile.ProfilePageActivity"></activity>
     </application>
 

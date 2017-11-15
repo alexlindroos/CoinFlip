@@ -7,5 +7,5 @@ package com.example.codemate.testbot.model
 class Conversation {
     var code: Int = 0
     var messageCount: Int = 0
-    var messages: List<Message>? = null
+    var messages: MutableList<Message>? = null
 }

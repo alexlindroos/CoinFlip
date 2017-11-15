@@ -23,92 +23,81 @@ import org.jetbrains.anko.image
 class YourCvActivity : BaseActivity() {
 
     companion object {
-        fun newIntent(context: Context): Intent {
+        val NAME = "name"
+        val LOCATION = "location"
+        val GENDER = "gender"
+        val AGE = "age"
+        val EMAIL = "email"
+        val NUMBER = "number"
+        val PROFESSION = "profession"
+        val EDUCATION = "education"
+        val LANGUAGES = "languages"
+        val HOBBIES = "hobbies"
+
+        fun newIntent(context: Context,
+                      name: String,
+                      location: String,
+                      gender: String,
+                      age: String,
+                      email: String,
+                      number: String,
+                      profession: String,
+                      education: String,
+                      languages: String,
+                      hobbies: String): Intent {
             val intent = Intent(context, YourCvActivity::class.java)
+            intent.putExtra(NAME, name)
+            intent.putExtra(LOCATION, location)
+            intent.putExtra(GENDER, gender)
+            intent.putExtra(AGE, age)
+            intent.putExtra(EMAIL, email)
+            intent.putExtra(NUMBER, number)
+            intent.putExtra(PROFESSION, profession)
+            intent.putExtra(EDUCATION, education)
+            intent.putExtra(LANGUAGES, languages)
+            intent.putExtra(HOBBIES, hobbies)
             return intent
         }
     }
 
-    var disposable: Disposable? = null
-    var listOfAllMessages: List<Message>? = null
-    var listOfCurrentUserMessages: MutableList<Message>? = null
-
-    var name: String = ""
-    var location: String = ""
-    var gender: String = ""
-    var age: String = ""
-    var email: String = ""
-    var number: String = ""
-    var profession: String = ""
-    var education: String = ""
-    var languages:String = ""
-    var hobbies: String = ""
-
-    val apiManager by lazy {
-        ApiManager.create()
-    }
+    private var name: String = ""
+    private var location: String = ""
+    private var gender: String = ""
+    private var age: String = ""
+    private var email: String = ""
+    private var number: String = ""
+    private var profession: String = ""
+    private var education: String = ""
+    private var languages:String = ""
+    private var hobbies: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_yourcv)
 
-        your_cv_profile_pic.setOnClickListener {
-            fetchConversation()
-        }
+        name = intent.getStringExtra(NAME)
+        location = intent.getStringExtra(LOCATION)
+        gender = intent.getStringExtra(GENDER)
+        age = intent.getStringExtra(AGE)
+        email = intent.getStringExtra(EMAIL)
+        number = intent.getStringExtra(NUMBER)
+        profession = intent.getStringExtra(PROFESSION)
+        education = intent.getStringExtra(EDUCATION)
+        languages = intent.getStringExtra(LANGUAGES)
+        hobbies = intent.getStringExtra(HOBBIES)
+
+        invalidateView()
     }
 
     override fun onResume() {
         super.onResume()
-        disposable?.dispose()
     }
 
     override fun onPause() {
         super.onPause()
     }
 
-    private fun fetchConversation() {
-        disposable = apiManager.getConversations()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                        {
-                            result ->
-                            listOfAllMessages = result.messages
-                            getCurrentUserMessages()
-                            invalidateView()
-                        },
-                        {
-                            error ->
-                            Toast.makeText(this, "ERROR", Toast.LENGTH_SHORT).show()
-                        }
-                )
-    }
-
-    private fun getCurrentUserMessages() {
-        listOfAllMessages!!.forEach {
-            if (it.session == "5c93b50c-d589-4306-8e4d-88f22ca9a4c2") {
-               listOfCurrentUserMessages!!.add(it)
-            }
-        }
-    }
-
     private fun invalidateView() {
-        listOfCurrentUserMessages!!.forEach {
-            if (it.text != "immediateNext") {
-                when (it.moduleNickname) {
-                    "Name" -> name = it.text
-                    "Location" -> location = it.text
-                    "Gender" -> gender = it.text
-                    "Age" -> age = it.text
-                    "Email" -> email = it.text
-                    "Number" -> number = it.text
-                    "Profession" -> profession = it.text
-                    "Education" -> education = it.text
-                    "Languages" -> languages = it.text
-                    "Hobbies" -> hobbies = it.text
-                }
-            }
-        }
         your_cv_name.text = name
         your_cv_location.text = location
         your_cv_gender.text = gender
@@ -119,6 +108,5 @@ class YourCvActivity : BaseActivity() {
         your_cv_education.text = education
         your_cv_languages.text = languages
         your_cv_hobbies.text = hobbies
-
     }
 }

@@ -10,6 +10,6 @@ import retrofit2.http.GET
 
 interface Api {
 
-    @GET("getConversations?key=efcc5ef2da3ebd64dd7ad069d4a860c6&direction=in")
+    @GET("getConversations?key=efcc5ef2da3ebd64dd7ad069d4a860c6&direction=in&session=4e72208a-9444-41d8-ba11-4286d1942aea")
     fun getConversations(): Observable<Conversation>
 }

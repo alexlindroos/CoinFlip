@@ -7,11 +7,13 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.webkit.WebSettings
 import android.webkit.WebView
 import android.widget.Toast
+import com.example.codemate.testbot.Constants
 import com.example.codemate.testbot.R
-import com.example.codemate.testbot.R.id.done
+import com.example.codemate.testbot.R.id.*
 import com.example.codemate.testbot.api.ApiManager
 import com.example.codemate.testbot.cv.YourCvActivity
 import com.example.codemate.testbot.model.Message
@@ -20,6 +22,7 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.noButton
+import org.jetbrains.anko.toast
 import org.jetbrains.anko.yesButton
 
 
@@ -37,6 +40,27 @@ class ChatActivity: AppCompatActivity() {
 
     lateinit var webView: WebView
     lateinit var toolbar: Toolbar
+    
+
+    var disposable: Disposable? = null
+    var listOfAllMessages: List<Message>? = null
+    var listOfCurrentUserMessages: MutableList<Message>? = null
+    var conversationFetched = false
+
+    var name: String = ""
+    var location: String = ""
+    var gender: String = ""
+    var age: String = ""
+    var email: String = ""
+    var number: String = ""
+    var profession: String = ""
+    var education: String = ""
+    var languages:String = ""
+    var hobbies: String = ""
+
+    val apiManager by lazy {
+        ApiManager.create()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,6 +78,15 @@ class ChatActivity: AppCompatActivity() {
         webView.loadUrl(url)
     }
 
+    override fun onResume() {
+        super.onResume()
+        disposable?.dispose()
+    }
+
+    override fun onPause() {
+        super.onPause()
+    }
+
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.chat_menu, menu)
         return true
@@ -61,7 +94,9 @@ class ChatActivity: AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
+            fetch -> fetchConversation()
             done -> moveToCv()
+            home -> finish()
         }
         return super.onOptionsItemSelected(item)
     }
@@ -70,8 +105,12 @@ class ChatActivity: AppCompatActivity() {
         alert(R.string.are_you_sure) {
             title = "Alert"
             yesButton {
-              val intent = Intent(applicationContext, YourCvActivity::class.java)
-              startActivity(intent)
+                if (conversationFetched) {
+                    //getCurrentUserMessages()
+                    persistAndMoveToCv()
+                } else {
+                    toast("Error in fetching")
+                }
             }
             noButton {
 
@@ -79,7 +118,73 @@ class ChatActivity: AppCompatActivity() {
         }.show()
     }
 
-    override fun onBackPressed() {
+    /*override fun onBackPressed() {
         //USER SHOULD NOT RETURN FROM THIS ACTIVITY WITH RETURN KEY
+    }  */
+
+    private fun fetchConversation() {
+        disposable = apiManager.getConversations()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        {
+                            result ->
+                            listOfCurrentUserMessages = result.messages
+                            conversationFetched = true
+
+                        },
+                        {
+                            error ->
+                            Toast.makeText(this, "ERROR FETCHING THE CONVERSATION", Toast.LENGTH_SHORT).show()
+                            conversationFetched = false
+                        }
+                )
+    }
+
+ /*   private fun getCurrentUserMessages() {
+        if (listOfAllMessages == null) {
+            return
+        }
+
+        listOfAllMessages!!.forEach {
+            if (it.session == Constants.SESSION_ID) {
+                listOfCurrentUserMessages!!.add(it)
+            } else {
+                return
+            }
+        }
+    }             */
+
+    private fun persistAndMoveToCv() {
+        listOfCurrentUserMessages!!.forEach {
+            if (it.text != "immediateNext") {
+                when (it.moduleNickname) {
+                    "Location" -> name= it.text
+                    "Gender" -> location = it.text
+                    "Age" -> gender = it.text
+                    "Email" -> age = it.text
+                    "Phone number" -> email = it.text
+                    "Personal info done" -> number = it.text
+                    "Education" -> profession = it.text
+                    "Languages" -> education = it.text
+                    "Hobbies" -> languages = it.text
+                    "End module" -> hobbies = it.text
+                }
+            }
+        }
+        val intent = YourCvActivity.newIntent(this,
+                name,
+                location,
+                gender,
+                age,
+                email,
+                number,
+                profession,
+                education,
+                languages,
+                hobbies)
+        startActivity(intent)
+        disposable?.dispose()
     }
 }
+
