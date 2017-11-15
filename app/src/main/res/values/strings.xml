@@ -21,7 +21,8 @@
     <string name="signup_successfull">Signup successful.</string>
     <string name="btn_go_to_cv">Go to CV</string>
     <string name="done">Done</string>
-    <string name="fetch">Fetch</string>
+    <string name="fetch_id">Fetch ID</string>
+    <string name="fetch_info">Fetch Info</string>
     <string name="are_you_sure">Are you sure that you are done?</string>
     <string name="search_title">Search</string>
 </resources>

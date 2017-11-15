@@ -7,11 +7,9 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import android.webkit.WebSettings
 import android.webkit.WebView
 import android.widget.Toast
-import com.example.codemate.testbot.Constants
 import com.example.codemate.testbot.R
 import com.example.codemate.testbot.R.id.*
 import com.example.codemate.testbot.api.ApiManager
@@ -42,10 +40,12 @@ class ChatActivity: AppCompatActivity() {
     lateinit var toolbar: Toolbar
     
 
-    var disposable: Disposable? = null
-    var listOfAllMessages: List<Message>? = null
-    var listOfCurrentUserMessages: MutableList<Message>? = null
-    var conversationFetched = false
+    private var disposable: Disposable? = null
+    private var listOfAllMessages: List<Message>? = null
+    private var listOfCurrentUserMessages: MutableList<Message>? = null
+    private var conversationFetched = false
+    private var sessionIdFetched = false
+    private var SESSION_ID = ""
 
     var name: String = ""
     var location: String = ""
@@ -94,7 +94,8 @@ class ChatActivity: AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            fetch -> fetchConversation()
+            fetch_id -> fetchSessionId()
+            fetch_info -> fetchConversationWithSessionId(SESSION_ID)
             done -> moveToCv()
             home -> finish()
         }
@@ -106,7 +107,7 @@ class ChatActivity: AppCompatActivity() {
             title = "Alert"
             yesButton {
                 if (conversationFetched) {
-                    //getCurrentUserMessages()
+                    getCurrentUserMessages()
                     persistAndMoveToCv()
                 } else {
                     toast("Error in fetching")
@@ -118,12 +119,34 @@ class ChatActivity: AppCompatActivity() {
         }.show()
     }
 
-    /*override fun onBackPressed() {
+    override fun onBackPressed() {
         //USER SHOULD NOT RETURN FROM THIS ACTIVITY WITH RETURN KEY
-    }  */
+    }
 
-    private fun fetchConversation() {
+    private fun fetchSessionId() {
         disposable = apiManager.getConversations()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        {
+                            result ->
+                            listOfAllMessages = result.messages
+                            val sessionMessage = listOfAllMessages?.get(0)
+                            SESSION_ID = sessionMessage!!.session
+                            sessionIdFetched = true
+                            toast("Session ID fetched")
+
+                        },
+                        {
+                            error ->
+                            Toast.makeText(this, "ERROR FETCHING THE CONVERSATION", Toast.LENGTH_SHORT).show()
+                            sessionIdFetched = false
+                        }
+                )
+    }
+
+    private fun fetchConversationWithSessionId(sessionId: String) {
+        disposable = apiManager.getConversationsWithSessionId(sessionId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
@@ -131,6 +154,7 @@ class ChatActivity: AppCompatActivity() {
                             result ->
                             listOfCurrentUserMessages = result.messages
                             conversationFetched = true
+                            toast("CV Data fetched")
 
                         },
                         {
@@ -141,19 +165,20 @@ class ChatActivity: AppCompatActivity() {
                 )
     }
 
- /*   private fun getCurrentUserMessages() {
-        if (listOfAllMessages == null) {
-            return
-        }
+    private fun getCurrentUserMessages() {
 
-        listOfAllMessages!!.forEach {
-            if (it.session == Constants.SESSION_ID) {
-                listOfCurrentUserMessages!!.add(it)
-            } else {
+            if (listOfAllMessages == null) {
                 return
             }
-        }
-    }             */
+
+            listOfAllMessages!!.forEach {
+                if (it.session == SESSION_ID) {
+                    listOfCurrentUserMessages!!.add(it)
+            } else {
+                return
+           }
+       }
+   }
 
     private fun persistAndMoveToCv() {
         listOfCurrentUserMessages!!.forEach {

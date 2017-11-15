@@ -1,14 +1,11 @@
 package com.example.codemate.testbot.cv
 
-import android.app.SearchManager
-import android.content.Context
 import android.os.Bundle
 import android.support.v7.app.AppCompatCallback
 import android.support.v7.app.AppCompatDelegate
 import android.support.v7.view.ActionMode
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.support.v7.widget.SearchView
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.LinearLayout
@@ -19,7 +16,7 @@ import com.example.codemate.testbot.model.User
 /**
  * Created by Alex Lindroos on 26/10/2017.
  */
-class CVList: BaseActivity(), AppCompatCallback, SearchView.OnQueryTextListener {
+class CVList: BaseActivity(), AppCompatCallback{
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,14 +45,6 @@ class CVList: BaseActivity(), AppCompatCallback, SearchView.OnQueryTextListener 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.search_menu, menu)
 
-       /* val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
-        val searchMenuItem = menu.findItem(R.id.search)
-        val searchView = searchMenuItem.actionView as SearchView
-
-        searchView.setSearchableInfo(searchManager.getSearchableInfo(componentName))
-        searchView.isSubmitButtonEnabled = true
-        searchView.setOnQueryTextListener(this)             */
-
         return true
     }
 
@@ -65,15 +54,6 @@ class CVList: BaseActivity(), AppCompatCallback, SearchView.OnQueryTextListener 
             R.id.search -> println("Search pressed")
         }
         return super.onOptionsItemSelected(item)
-    }
-
-    override fun onQueryTextSubmit(query: String?): Boolean {
-        return false
-    }
-
-    override fun onQueryTextChange(newText: String?): Boolean {
-        println(newText)
-        return true
     }
 
     override fun onWindowStartingSupportActionMode(callback: ActionMode.Callback?): ActionMode? {
