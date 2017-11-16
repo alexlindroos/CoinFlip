@@ -27,16 +27,49 @@ class CVList: BaseActivity(), AppCompatCallback{
         delegate.setContentView(R.layout.activity_cvlist)
         val toolbar = findViewById<android.support.v7.widget.Toolbar>(R.id.toolbar)
         delegate.setSupportActionBar(toolbar)
+        delegate.supportActionBar?.title = getString(R.string.all_jobseekers)
 
         val rv = findViewById<RecyclerView>(R.id.rv_cv)
         rv.layoutManager = LinearLayoutManager(this, LinearLayout.VERTICAL, false)
 
         //In a real app, users should be fetched from the backend
         val users = ArrayList<User>()
-        users.add(User(R.drawable.face,"Lisa", "Doctor"))
-        users.add(User(R.drawable.face2,"Mohammed", "Chef"))
-        users.add(User(R.drawable.face3,"Aaron", "IT"))
-        users.add(User(R.drawable.face4,"Helen", "Teacher"))
+        users.add(User(R.drawable.face,"Lisa",
+                "25",
+                "lisa@email.com",
+                "0401231333",
+                "Doctor",
+                "2015 - Medical School of Helsinki \n2011 - Gymnasium \n2008 - Secondary School",
+                "2015 - Jorvi (5 months) \n2012 - Kindergarden Töölö (3 months) \n2010 - Alepa (1 year)",
+                "Helping people and hearth surgery.",
+                "Swimming, cooking and movies."))
+        users.add(User(R.drawable.face2,"Mohammed",
+                "29",
+                "mohammed@email.com",
+                "0502352355",
+                "Chef",
+                "2009 - Restaurant School Perho \n2003 - Secondary School",
+                "2009 - Restaurant Olo (10 months) \n2008 - Construction Oy (6 months) \n2005 - Mailman (4 months)",
+                "Cooking for the people is my passion and arabic cuisine.",
+                "Football, gym, food and music."))
+        users.add(User(R.drawable.face3,"Aaron",
+                "31",
+                "aaron@email.com",
+                "0502342311",
+                "IT",
+                "2007 - Metropolia UAS \n2004 - Gymnasium \n2000 - Secondary School",
+                "2010 - Helsinki City IT office (7 years) \n2009 - Tieto (8 months) \n2004 - Prisma (2 year)",
+                "Programming and learning new languages.",
+                "Gym and playing guitar."))
+        users.add(User(R.drawable.face4,"Helen",
+                "24",
+                "helen@email.com",
+                "0442431333",
+                "Teacher",
+                "2015 - Laurea \n2012 - Helsinki Business School \n2009 - Secondary School",
+                "2015 - Sibelius gymnasium (11 months) \n2012 - R-Kioski (1 month) \n2010 - Veikkaus (1 year)",
+                "Maths and music.",
+                "Dogs and running."))
 
         val adapter = CVAdapter(this, users)
         rv.adapter = adapter

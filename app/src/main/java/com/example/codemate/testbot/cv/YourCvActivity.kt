@@ -89,14 +89,6 @@ class YourCvActivity : BaseActivity() {
         invalidateView()
     }
 
-    override fun onResume() {
-        super.onResume()
-    }
-
-    override fun onPause() {
-        super.onPause()
-    }
-
     private fun invalidateView() {
         your_cv_name.text = name
         your_cv_location.text = location

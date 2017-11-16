@@ -27,9 +27,17 @@ class ProfilePageActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_yourprofile)
+
+
         user = intent.getSerializableExtra("userExtra") as User
         your_profile_profile_pic.image = getDrawable(user.img)
         your_profile_name.text = user.name
         your_profile_profession.text = "Profession: ${user.profession}"
+        your_profile_education_text.text = user.education
+        your_profile_experience_text.text = user.experience
+        your_profile_hobbies_text.text = user.hobbies
+        your_profile_intrests_text.text = user.intrests
+        your_profile_age.text = "Age: ${user.age}"
+        your_profile_email.text = user.email
     }
 }
