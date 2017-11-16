@@ -38,7 +38,7 @@ class ChatActivity: AppCompatActivity() {
 
     lateinit var webView: WebView
     lateinit var toolbar: Toolbar
-    
+
 
     private var disposable: Disposable? = null
     private var listOfAllMessages: List<Message>? = null
@@ -47,18 +47,18 @@ class ChatActivity: AppCompatActivity() {
     private var sessionIdFetched = false
     private var SESSION_ID = ""
 
-    var name: String = ""
-    var location: String = ""
-    var gender: String = ""
-    var age: String = ""
-    var email: String = ""
-    var number: String = ""
-    var profession: String = ""
-    var education: String = ""
-    var languages:String = ""
-    var hobbies: String = ""
+    private var name: String = ""
+    private var location: String = ""
+    private var gender: String = ""
+    private var age: String = ""
+    private var email: String = ""
+    private var number: String = ""
+    private var profession: String = ""
+    private var education: String = ""
+    private var languages: String = ""
+    private var hobbies: String = ""
 
-    val apiManager by lazy {
+    private val apiManager by lazy {
         ApiManager.create()
     }
 
@@ -70,7 +70,7 @@ class ChatActivity: AppCompatActivity() {
         toolbar = findViewById(R.id.toolbar) as Toolbar
 
         setSupportActionBar(toolbar)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.title = ""
         val url = "https://api.motion.ai/webchat/84924?color=3588eb&sendBtn=SEND&inputBox=Type%20something...&token=6938b68c9f59dd91f2f4ba2583077765"
         val webSettings: WebSettings = webView.settings
 
@@ -83,10 +83,6 @@ class ChatActivity: AppCompatActivity() {
         disposable?.dispose()
     }
 
-    override fun onPause() {
-        super.onPause()
-    }
-
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.chat_menu, menu)
         return true
@@ -97,9 +93,12 @@ class ChatActivity: AppCompatActivity() {
             fetch_id -> fetchSessionId()
             fetch_info -> fetchConversationWithSessionId(SESSION_ID)
             done -> moveToCv()
-            home -> finish()
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onBackPressed() {
+        logout()
     }
 
     private fun moveToCv() {
@@ -119,17 +118,12 @@ class ChatActivity: AppCompatActivity() {
         }.show()
     }
 
-    override fun onBackPressed() {
-        //USER SHOULD NOT RETURN FROM THIS ACTIVITY WITH RETURN KEY
-    }
-
     private fun fetchSessionId() {
         disposable = apiManager.getConversations()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
-                        {
-                            result ->
+                        { result ->
                             listOfAllMessages = result.messages
                             val sessionMessage = listOfAllMessages?.get(0)
                             SESSION_ID = sessionMessage!!.session
@@ -137,8 +131,7 @@ class ChatActivity: AppCompatActivity() {
                             toast("Session ID fetched")
 
                         },
-                        {
-                            error ->
+                        { error ->
                             Toast.makeText(this, "ERROR FETCHING THE CONVERSATION", Toast.LENGTH_SHORT).show()
                             sessionIdFetched = false
                         }
@@ -150,15 +143,13 @@ class ChatActivity: AppCompatActivity() {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
-                        {
-                            result ->
+                        { result ->
                             listOfCurrentUserMessages = result.messages
                             conversationFetched = true
                             toast("CV Data fetched")
 
                         },
-                        {
-                            error ->
+                        { error ->
                             Toast.makeText(this, "ERROR FETCHING THE CONVERSATION", Toast.LENGTH_SHORT).show()
                             conversationFetched = false
                         }
@@ -167,24 +158,24 @@ class ChatActivity: AppCompatActivity() {
 
     private fun getCurrentUserMessages() {
 
-            if (listOfAllMessages == null) {
-                return
-            }
+        if (listOfAllMessages == null) {
+            return
+        }
 
-            listOfAllMessages!!.forEach {
-                if (it.session == SESSION_ID) {
-                    listOfCurrentUserMessages!!.add(it)
+        listOfAllMessages!!.forEach {
+            if (it.session == SESSION_ID) {
+                listOfCurrentUserMessages!!.add(it)
             } else {
                 return
-           }
-       }
-   }
+            }
+        }
+    }
 
     private fun persistAndMoveToCv() {
         listOfCurrentUserMessages!!.forEach {
             if (it.text != "immediateNext") {
                 when (it.moduleNickname) {
-                    "Location" -> name= it.text
+                    "Location" -> name = it.text
                     "Gender" -> location = it.text
                     "Age" -> gender = it.text
                     "Email" -> age = it.text
@@ -210,6 +201,18 @@ class ChatActivity: AppCompatActivity() {
                 hobbies)
         startActivity(intent)
         disposable?.dispose()
+    }
+
+    private fun logout() {
+        alert(R.string.logout) {
+            title = "Alert"
+            yesButton {
+                finish()
+            }
+            noButton {
+
+            }
+        }.show()
     }
 }
 

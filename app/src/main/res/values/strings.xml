@@ -26,4 +26,5 @@
     <string name="are_you_sure">Are you sure that you are done?</string>
     <string name="search_title">Search</string>
     <string name="all_jobseekers">All Jobseekers</string>
+    <string name="logout">Are you sure you want to go back? You will be logged out.</string>
 </resources>
