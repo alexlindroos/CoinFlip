@@ -2,7 +2,7 @@
     <string name="app_name">Coinflip</string>
     <string name="chat_btn_jobseeker">Jobseeker</string>
     <string name="chat_btn_employer">Employer</string>
-    <string name="chat_text">Are you seeking a job or employees?</string>
+    <string name="chat_text">Are you seeking for a job or employees?</string>
     <string name="employer_login_btn">Login</string>
     <string name="employer_no_account_text">No account yet? Create one</string>
     <string name="employer_hint_username">Username</string>
@@ -25,6 +25,9 @@
     <string name="fetch_info">Fetch Info</string>
     <string name="are_you_sure">Are you sure that you are done?</string>
     <string name="search_title">Search</string>
+    <string name="add_job_ad_title">New Job Ad</string>
     <string name="all_jobseekers">All Jobseekers</string>
     <string name="logout">Are you sure you want to go back? You will be logged out.</string>
+    <string name="please_fetch">Please fetch session ID and CV data before continuing.</string>
+    <string name="create">Create</string>
 </resources>

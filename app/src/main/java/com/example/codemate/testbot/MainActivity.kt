@@ -1,5 +1,6 @@
 package com.example.codemate.testbot
 
+import android.graphics.Color
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.example.codemate.testbot.login.EmployerLoginActivity

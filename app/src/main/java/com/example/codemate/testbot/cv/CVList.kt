@@ -12,6 +12,9 @@ import android.widget.LinearLayout
 import com.example.codemate.testbot.BaseActivity
 import com.example.codemate.testbot.R
 import com.example.codemate.testbot.model.User
+import android.support.v7.view.menu.MenuBuilder
+
+
 
 /**
  * Created by Alex Lindroos on 26/10/2017.
@@ -85,6 +88,7 @@ class CVList: BaseActivity(), AppCompatCallback{
 
         when(item.itemId) {
             R.id.search -> println("Search pressed")
+            R.id.action_add_job_ad -> println("Add job ad pressed")
         }
         return super.onOptionsItemSelected(item)
     }

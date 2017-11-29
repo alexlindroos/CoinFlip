@@ -109,7 +109,7 @@ class ChatActivity: AppCompatActivity() {
                     getCurrentUserMessages()
                     persistAndMoveToCv()
                 } else {
-                    toast("Error in fetching")
+                    toast(R.string.please_fetch)
                 }
             }
             noButton {
