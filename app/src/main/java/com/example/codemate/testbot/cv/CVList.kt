@@ -22,18 +22,20 @@ class CVList: BaseActivity(), AppCompatCallback{
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_cvlist)
-
+        //AppCompatDelegate is made for getting toolbar to work in this activity
         val delegate = AppCompatDelegate.create(this, this)
         delegate.onCreate(savedInstanceState)
         delegate.setContentView(R.layout.activity_cvlist)
+        //Setup toolbar
         val toolbar = findViewById<android.support.v7.widget.Toolbar>(R.id.toolbar)
         delegate.setSupportActionBar(toolbar)
         delegate.supportActionBar?.title = getString(R.string.all_jobseekers)
-
+        //Setup Recycleriew
         val rv = findViewById<RecyclerView>(R.id.rv_cv)
         rv.layoutManager = LinearLayoutManager(this, LinearLayout.VERTICAL, false)
 
         //In a real app, users should be fetched from the backend
+        //But, because we don't have a backend users are hardcoded
         val users = ArrayList<User>()
         users.add(User(R.drawable.face,"Lisa",
                 "25",
@@ -71,7 +73,7 @@ class CVList: BaseActivity(), AppCompatCallback{
                 "2015 - Sibelius gymnasium (11 months) \n2012 - R-Kioski (1 month) \n2010 - Veikkaus (1 year)",
                 "Maths and music.",
                 "Dogs and running."))
-
+        //Finishing the Recyclerview setup with the adapter.
         val adapter = CVAdapter(this, users)
         rv.adapter = adapter
     }
@@ -83,7 +85,6 @@ class CVList: BaseActivity(), AppCompatCallback{
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-
         when(item.itemId) {
             R.id.search -> println("Search pressed")
             R.id.action_add_job_ad -> println("Add job ad pressed")

@@ -18,6 +18,8 @@ import java.util.ArrayList;
  * Created by Alex Lindroos on 29/11/2017.
  */
 
+//OnBoarding class
+
 public class WelcomeOnBoarding extends AppCompatActivity {
 
         private android.support.v4.app.FragmentManager fragmentManager;
@@ -26,14 +28,14 @@ public class WelcomeOnBoarding extends AppCompatActivity {
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.welcome_fragments_layout);
+            //Setup the Onboarding fragment
             fragmentManager = getSupportFragmentManager();
-
             final PaperOnboardingFragment onBoardingFragment = PaperOnboardingFragment.newInstance(getDataForOnboarding());
 
             android.support.v4.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.add(R.id.fragment_container, onBoardingFragment);
             fragmentTransaction.commit();
-
+            //Listener for the onboarding last page, when it is swiped to right go to main activity
             onBoardingFragment.setOnRightOutListener(new PaperOnboardingOnRightOutListener() {
                 @Override
                 public void onRightOut() {
@@ -44,13 +46,13 @@ public class WelcomeOnBoarding extends AppCompatActivity {
                 }
             });
         }
-
+//Function to go to main activity
         private void goToMainActivity() {
             finish();
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
         }
-
+//Function to prepare onboarding arraylist with PaperOnBoarding objects
         private ArrayList<PaperOnboardingPage> getDataForOnboarding() {
             // prepare data
             PaperOnboardingPage scr1 = new PaperOnboardingPage("Create an account.",

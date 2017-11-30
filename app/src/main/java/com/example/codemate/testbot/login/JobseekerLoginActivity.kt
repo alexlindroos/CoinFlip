@@ -18,6 +18,9 @@ import org.jetbrains.anko.toast
 /**
  * Created by Alex Lindroos on 10/10/2017.
  */
+
+//Jobseeker login activity
+
 class JobseekerLoginActivity: BaseActivity() {
 
     lateinit var listOfUsers: List<UserLoginModel>
@@ -32,9 +35,9 @@ class JobseekerLoginActivity: BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login_jobseeker)
-
+        //Persist all the users from db in to the List
         listOfUsers = getUsers(database)
-
+        //Setup onclicklisteners for the login and signup
         jobseeker_btn_login.setOnClickListener {
             performLogin()
         }
@@ -43,17 +46,18 @@ class JobseekerLoginActivity: BaseActivity() {
             startActivity(intent)
         }
     }
-
+//Function to perform the login
     private fun performLogin() {
         val username = jobseeker_input_username.text.toString()
         val password = jobseeker_input_password.text.toString()
         var usernameFromDb = "admin" //FOR TESTING
         var passwordFromDb = "test" //FOR TESTING
 
+    //Check if the user inputs are null or empty
         if (username.isNullOrEmpty() || password.isNullOrEmpty()) {
             toast("Some of the fields are empty.")
         }
-
+    //Check if the password and username matches with the database
         if (password == passwordFromDb && username == usernameFromDb) {
             val intent = Intent(this, ChatActivity::class.java)
             startActivity(intent)
@@ -62,7 +66,7 @@ class JobseekerLoginActivity: BaseActivity() {
             toast("Login credentials are wrong.")
         }
     }
-
+    //Functions to get all the users from the db
     fun getUsers(db: ManagedSQLiteOpenHelper): List<UserLoginModel> = db.use {
         val rowParser = classParser<UserLoginModel>()
         select("User")

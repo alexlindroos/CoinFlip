@@ -20,6 +20,8 @@ import org.jetbrains.anko.image
  * Created by Alex Lindroos on 04/10/2017.
  */
 
+//Activity for completed CV after the chatbot
+
 class YourCvActivity : BaseActivity() {
 
     companion object {
@@ -34,6 +36,7 @@ class YourCvActivity : BaseActivity() {
         val LANGUAGES = "languages"
         val HOBBIES = "hobbies"
 
+        //Function for saving the chatbot data in to the intent
         fun newIntent(context: Context,
                       name: String,
                       location: String,
@@ -75,6 +78,7 @@ class YourCvActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_yourcv)
 
+        //Getting all the intent extras
         name = intent.getStringExtra(NAME)
         location = intent.getStringExtra(LOCATION)
         gender = intent.getStringExtra(GENDER)
@@ -88,7 +92,7 @@ class YourCvActivity : BaseActivity() {
 
         invalidateView()
     }
-
+//Function to invalidate the view with new data
     private fun invalidateView() {
         your_cv_name.text = name
         your_cv_location.text = location

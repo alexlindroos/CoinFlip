@@ -1,7 +1,5 @@
 package com.example.codemate.testbot.chat
 
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
@@ -27,14 +25,10 @@ import org.jetbrains.anko.yesButton
 /**
  * Created by Alex Lindroos on 28/09/2017.
  */
-class ChatActivity: AppCompatActivity() {
 
-    companion object {
-        fun newIntent(context: Context): Intent {
-            val intent = Intent(context, ChatActivity::class.java)
-            return intent
-        }
-    }
+//ChatBot Activity
+
+class ChatActivity: AppCompatActivity() {
 
     lateinit var webView: WebView
     lateinit var toolbar: Toolbar
@@ -69,11 +63,13 @@ class ChatActivity: AppCompatActivity() {
         webView = findViewById(R.id.webview) as WebView
         toolbar = findViewById(R.id.toolbar) as Toolbar
 
+        //Setup the toolbar
         setSupportActionBar(toolbar)
         supportActionBar?.title = ""
+
+        //Setup the webview
         val url = "https://api.motion.ai/webchat/84924?color=3588eb&sendBtn=SEND&inputBox=Type%20something...&token=6938b68c9f59dd91f2f4ba2583077765"
         val webSettings: WebSettings = webView.settings
-
         webSettings.javaScriptEnabled = true
         webView.loadUrl(url)
     }
@@ -100,7 +96,7 @@ class ChatActivity: AppCompatActivity() {
     override fun onBackPressed() {
         logout()
     }
-
+//Function for moving in to the finished cv activity.
     private fun moveToCv() {
         alert(R.string.are_you_sure) {
             title = "Alert"
@@ -117,7 +113,7 @@ class ChatActivity: AppCompatActivity() {
             }
         }.show()
     }
-
+//This function fetches the session id from the latest conversation with the chatbot.
     private fun fetchSessionId() {
         disposable = apiManager.getConversations()
                 .subscribeOn(Schedulers.io())
@@ -129,7 +125,6 @@ class ChatActivity: AppCompatActivity() {
                             SESSION_ID = sessionMessage!!.session
                             sessionIdFetched = true
                             toast("Session ID fetched")
-
                         },
                         { error ->
                             Toast.makeText(this, "ERROR FETCHING THE CONVERSATION", Toast.LENGTH_SHORT).show()
@@ -137,7 +132,7 @@ class ChatActivity: AppCompatActivity() {
                         }
                 )
     }
-
+//This function will fetch the latest conversation with the session id that is fetched first
     private fun fetchConversationWithSessionId(sessionId: String) {
         disposable = apiManager.getConversationsWithSessionId(sessionId)
                 .subscribeOn(Schedulers.io())
@@ -147,7 +142,6 @@ class ChatActivity: AppCompatActivity() {
                             listOfCurrentUserMessages = result.messages
                             conversationFetched = true
                             toast("CV Data fetched")
-
                         },
                         { error ->
                             Toast.makeText(this, "ERROR FETCHING THE CONVERSATION", Toast.LENGTH_SHORT).show()
@@ -155,7 +149,7 @@ class ChatActivity: AppCompatActivity() {
                         }
                 )
     }
-
+//This function will loop through the listOfAllMessages and adds all messages from the user in to the new list.
     private fun getCurrentUserMessages() {
 
         if (listOfAllMessages == null) {
@@ -170,7 +164,7 @@ class ChatActivity: AppCompatActivity() {
             }
         }
     }
-
+//This function will loop listOfCurrentUserMessages and persists all answers and then starts YourCvActivity with new data.
     private fun persistAndMoveToCv() {
         listOfCurrentUserMessages!!.forEach {
             if (it.text != "immediateNext") {
@@ -202,7 +196,7 @@ class ChatActivity: AppCompatActivity() {
         startActivity(intent)
         disposable?.dispose()
     }
-
+//Function for logging out
     private fun logout() {
         alert(R.string.logout) {
             title = "Alert"

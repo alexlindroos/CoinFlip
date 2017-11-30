@@ -8,6 +8,8 @@ import retrofit2.converter.gson.GsonConverterFactory
  * Created by Alex Lindroos on 01/11/2017.
  */
 
+//ApiManager handles creating the retrofit instance with baseurl and 2 adapters.
+
 class ApiManager {
 
     companion object {

@@ -8,6 +8,8 @@ import org.jetbrains.anko.db.*
  * Created by Alex Lindroos on 26/10/2017.
  */
 
+//Database class for the users
+
 class DatabaseHelper(context: Context): ManagedSQLiteOpenHelper(context, DB_NAME,
         null, DB_VERSION) {
 

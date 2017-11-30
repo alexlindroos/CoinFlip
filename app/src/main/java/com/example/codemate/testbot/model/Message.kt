@@ -6,6 +6,8 @@ import java.io.Serializable
  * Created by Alex Lindroos on 01/11/2017.
  */
 
+//Model for the message
+
 class Message: Serializable {
 
     var id: String = ""

@@ -18,6 +18,8 @@ import org.jetbrains.anko.image
  * Created by Alex Lindroos on 26/10/2017.
  */
 
+//Adapter for the CVList
+
 class CVAdapter(val context: Context, val array: ArrayList<User>): RecyclerView.Adapter<CVAdapter.ViewHolder>() {
 
     override fun onBindViewHolder(holder: ViewHolder?, position: Int) {

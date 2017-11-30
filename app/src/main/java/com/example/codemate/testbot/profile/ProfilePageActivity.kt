@@ -13,6 +13,8 @@ import org.jetbrains.anko.image
  * Created by Alex Lindroos on 08/11/2017.
  */
 
+//Activity for the Profile page
+
 class ProfilePageActivity : BaseActivity() {
 
     companion object {
@@ -27,9 +29,12 @@ class ProfilePageActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_yourprofile)
-
-
+        //Savig the user object from intent extras
         user = intent.getSerializableExtra("userExtra") as User
+        invalidateView()
+    }
+//Function to invalidate the view
+    private fun invalidateView() {
         your_profile_profile_pic.image = getDrawable(user.img)
         your_profile_name.text = user.name
         your_profile_profession.text = "Profession: ${user.profession}"
