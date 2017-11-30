@@ -4,14 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".cv.CVList">
 
-    <item
+    <!--item
         android:id="@+id/search"
         android:title="@string/search_title"
         android:icon="@drawable/ic_search_black_24dp"
-        app:showAsAction="ifRoom" />
-    <item
+        app:showAsAction="ifRoom" /-->
+    <!--item
         android:id="@+id/action_add_job_ad"
         android:title="@string/add_job_ad_title"
         android:icon="@drawable/ic_work_black_24dp"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="ifRoom" /-->
+    <item
+        android:id="@+id/action_my_profile"
+        android:title="@string/my_profile_title"
+        android:icon="@drawable/ic_build_black_24dp"
+        app:showAsAction="ifRoom"/>
 </menu>

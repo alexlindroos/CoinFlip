@@ -62,12 +62,12 @@ public class WelcomeOnBoarding extends AppCompatActivity {
                     R.drawable.ic_person_add_black_24dp);
             PaperOnboardingPage scr2 = new PaperOnboardingPage("Build your CV.",
                     "Build your CV with the Chatbot.",
-                    Color.parseColor("#9B90BC"),
+                    Color.parseColor("#006f13"),
                     R.drawable.ic_contact_mail_black_24dp,
                     R.drawable.ic_contact_mail_black_24dp);
             PaperOnboardingPage scr3 = new PaperOnboardingPage("Find the right people.",
                     "Find your new employers and employees.",
-                    Color.parseColor("#9B90BC"),
+                    Color.parseColor("#3b5998"),
                     R.drawable.ic_sentiment_satisfied_black_24dp,
                     R.drawable.ic_sentiment_satisfied_black_24dp);
 

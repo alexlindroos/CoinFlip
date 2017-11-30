@@ -1,5 +1,6 @@
 package com.example.codemate.testbot.cv
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatCallback
 import android.support.v7.app.AppCompatDelegate
@@ -12,6 +13,10 @@ import android.widget.LinearLayout
 import com.example.codemate.testbot.BaseActivity
 import com.example.codemate.testbot.R
 import com.example.codemate.testbot.model.User
+import com.example.codemate.testbot.profile.MyProfileActivity
+import org.jetbrains.anko.alert
+import org.jetbrains.anko.noButton
+import org.jetbrains.anko.yesButton
 
 
 /**
@@ -78,6 +83,28 @@ class CVList: BaseActivity(), AppCompatCallback{
         rv.adapter = adapter
     }
 
+    override fun onBackPressed() {
+        logout()
+    }
+
+    //Function for logging out
+    private fun logout() {
+        alert(R.string.logout) {
+            title = "Alert"
+            yesButton {
+                finish()
+            }
+            noButton {
+
+            }
+        }.show()
+    }
+    //Function to move in to my profile
+    private fun goToMyProfile() {
+        val intent = Intent(this, MyProfileActivity::class.java)
+        startActivity(intent)
+    }
+
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.search_menu, menu)
 
@@ -86,8 +113,9 @@ class CVList: BaseActivity(), AppCompatCallback{
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId) {
-            R.id.search -> println("Search pressed")
-            R.id.action_add_job_ad -> println("Add job ad pressed")
+            //R.id.search -> println("Search pressed")
+            //R.id.action_add_job_ad -> println("Add job ad pressed")
+            R.id.action_my_profile -> goToMyProfile()
         }
         return super.onOptionsItemSelected(item)
     }
