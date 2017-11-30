@@ -47,15 +47,14 @@ class JobseekerLoginActivity: BaseActivity() {
     private fun performLogin() {
         val username = jobseeker_input_username.text.toString()
         val password = jobseeker_input_password.text.toString()
-        var usernameFromDb: String? = null
-        //var passwordFromDb: String? = null
+        var usernameFromDb = "admin" //FOR TESTING
         var passwordFromDb = "test" //FOR TESTING
 
         if (username.isNullOrEmpty() || password.isNullOrEmpty()) {
             toast("Some of the fields are empty.")
         }
 
-        if (password == passwordFromDb) {
+        if (password == passwordFromDb && username == usernameFromDb) {
             val intent = Intent(this, ChatActivity::class.java)
             startActivity(intent)
             finish()

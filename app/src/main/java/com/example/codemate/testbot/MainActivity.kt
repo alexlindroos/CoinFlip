@@ -14,13 +14,11 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         chat_btn_jobseeker.setOnClickListener {
-//            val intent = ChatActivity.newIntent(this)
             val intent = JobseekerLoginActivity.newIntent(this)
             startActivity(intent)
         }
 
         chat_btn_employer.setOnClickListener {
-            //val intent = YourCvActivity.newIntent(this)
             val intent = EmployerLoginActivity.newIntent(this)
             startActivity(intent)
         }

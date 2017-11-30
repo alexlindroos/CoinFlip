@@ -3,6 +3,7 @@ package com.example.codemate.testbot.onboarding;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 
 import com.example.codemate.testbot.MainActivity;
@@ -36,6 +37,9 @@ public class WelcomeOnBoarding extends AppCompatActivity {
             onBoardingFragment.setOnRightOutListener(new PaperOnboardingOnRightOutListener() {
                 @Override
                 public void onRightOut() {
+                    Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+                    if(fragment != null)
+                        fragmentManager.beginTransaction().remove(fragment).commit();
                     goToMainActivity();
                 }
             });

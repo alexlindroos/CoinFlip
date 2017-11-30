@@ -12,8 +12,6 @@ import android.widget.LinearLayout
 import com.example.codemate.testbot.BaseActivity
 import com.example.codemate.testbot.R
 import com.example.codemate.testbot.model.User
-import android.support.v7.view.menu.MenuBuilder
-
 
 
 /**
